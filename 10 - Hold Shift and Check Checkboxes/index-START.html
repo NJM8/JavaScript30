@@ -99,6 +99,38 @@
   </div>
 
 <script>
+  let items = [...document.querySelectorAll('.item')];
+
+  items.forEach((item, index) => {
+    item.addEventListener('click', event => {
+      if (event.shiftKey === true) {
+        let checkBoxes = [...document.querySelectorAll('input')];
+        let oneChecked = checkBoxes.some(box => box.checked);
+        if (oneChecked) {
+          let alreadyCheckedBox = checkBoxes.findIndex(box => box.checked && box !== event.target);
+          if (alreadyCheckedBox < index) {
+            for (let i = alreadyCheckedBox; i < index; i++) {
+              checkBoxes[i].checked = true;
+            }
+          } else {
+            for (let i = index; i < alreadyCheckedBox; i++) {
+              checkBoxes[i].checked = true;
+            }
+          }
+        }
+      }
+    });
+  });
+
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
