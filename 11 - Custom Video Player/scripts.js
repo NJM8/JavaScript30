@@ -7,6 +7,7 @@ const toggle = player.querySelector('.toggle');
 const skipButtons = player.querySelectorAll('[data-skip]');
 const ranges = player.querySelectorAll('.player__slider');
 const fullscreen = player.querySelector('.goFullscreen');
+const timeDisplay = player.querySelector('.timeDisplay');
 
 // Build functions
 function togglePlay(){
@@ -28,6 +29,26 @@ function handleRangeUpdate(){
 function handleProgress(){
   const percent = (video.currentTime / video.duration) * 100;
   progressBar.style.flexBasis = `${percent}%`;
+
+}
+
+function updateTimeDisplay(){
+  let totalSeconds = Math.round(video.duration);
+  let totalMinutes = Math.floor(totalSeconds / 60);
+  totalMinutes = (totalMinutes >= 10) ? totalMinutes : "0" + totalMinutes;
+  totalSeconds = Math.floor(totalSeconds % 60);
+  totalSeconds = (totalSeconds >= 10) ? totalSeconds : "0" + totalSeconds;
+
+  let elapsedSeconds = Math.round(video.currentTime);
+  let elapsedMinutes = Math.floor(elapsedSeconds/60);
+  elapsedMinutes = (elapsedMinutes >= 10) ? elapsedMinutes : "0" + elapsedMinutes;
+  elapsedSeconds = Math.floor(elapsedSeconds % 60);
+  elapsedSeconds = (elapsedSeconds >= 10) ? elapsedSeconds : "0" + elapsedSeconds;
+
+  let elapsedTime = `${elapsedMinutes}:${elapsedSeconds}`;
+  let totalTime = `${totalMinutes}:${totalSeconds}`;
+
+  timeDisplay.textContent = `${elapsedTime}/${totalTime}`;
 }
 
 function scrub(event){
@@ -37,9 +58,9 @@ function scrub(event){
 
 function goFullscreen(){
   if (document.mozFullScreenElement) {
-    document.mozCancelFullScreen;
+    document.mozCancelFullScreen();
   } else {
-    video.mozRequestFullScreen();
+    player.mozRequestFullScreen();
   }
 }
 
@@ -47,7 +68,10 @@ function goFullscreen(){
 video.addEventListener('click', togglePlay);
 video.addEventListener('play', updateButton);
 video.addEventListener('pause', updateButton);
-video.addEventListener('timeupdate', handleProgress);
+video.addEventListener('timeupdate', () => {
+  handleProgress(); 
+  updateTimeDisplay();
+});
 
 toggle.addEventListener('click', togglePlay);
 
@@ -63,6 +87,10 @@ progress.addEventListener('mousedown', () => mousedown = true);
 progress.addEventListener('mouseup', () => mousedown = false);
 
 fullscreen.addEventListener('click', goFullscreen);
+
+video.addEventListener('loadedmetadata', updateTimeDisplay);
+
+
 
 
 

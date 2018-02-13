@@ -88,7 +88,7 @@ body {
 }
 
 .progress {
-  flex:10;
+  flex:9;
   position: relative;
   display:flex;
   flex-basis:100%;
@@ -109,6 +109,15 @@ body {
   margin: auto 10px;
   height: 16px;
   flex: 0;
+}
+
+.timeDisplay {
+  font-size: 1rem;
+  color: white;
+  justify-content: center;
+  text-align: center;
+  flex: 0;
+  padding-top: 6px;
 }
 
 /* unholy css to style input type="range" */
