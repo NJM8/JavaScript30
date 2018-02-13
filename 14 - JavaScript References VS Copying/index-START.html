@@ -8,15 +8,37 @@
 
   <script>
     // start with strings, numbers and booleans
+    let age = 100;
+    let ageTwo = age;
+    console.log(age, ageTwo);
+    age = 200;
+    console.log(age, ageTwo);
+
+    let name = 'Nate';
+    let nameTwo = name;
+    console.log(name, nameTwo);
+    name = 'Kai';
+    console.log(name, nameTwo);
+
+    let bool = true;
+    let boolTwo = bool;
+    console.log(bool, boolTwo);
+    bool = false;
+    console.log(bool, boolTwo);
+    // There are all copies, any changes are not linked
 
     // Let's say we have an array
     const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
 
     // and we want to make a copy of it.
+    const team = players;
+    console.log(players, team);
 
     // You might think we can just do something like this:
+    team[3] = 'Jimmy';
 
     // however what happens when we update that array?
+    console.log(players, team);
 
     // now here is the problem!
 
@@ -27,12 +49,20 @@
     // So, how do we fix this? We take a copy instead!
 
     // one way
+    let teamTwo = Array.from(players);
+    // or let teamTwo = players.slice();
 
     // or create a new array and concat the old one in
+    let teamThree = [].concat(players);
 
     // or use the new ES6 Spread
+    let teamFour = [...players];
 
     // now when we update it, the original one isn't changed
+    teamTwo[2] = 'James';
+    teamThree[2] = 'Sage';
+    teamFour[2] = 'Julian';
+    console.log(players, team, teamTwo, teamThree, teamFour);
 
     // The same thing goes for objects, let's say we have a person object
 
@@ -43,12 +73,33 @@
     };
 
     // and think we make a copy:
+    const captain = person;
+    captain.number = 99;
+    console.log(captain, person);
 
     // how do we take a copy instead?
+    const capTwo = Object.assign({}, person);
+    capTwo.otherNumber = 55;
+    console.log(person, captain, capTwo);
 
     // We will hopefully soon see the object ...spread
 
-    // Things to note - this is only 1 level deep - both for Arrays and Objects. lodash has a cloneDeep method, but you should think twice before using it.
+    // Things to note - this is only 1 level deep - both for Arrays and Objects. 
+    person.foods = {fav: 'pizza', hate: 'lima beans'};
+    console.log(person);
+
+    const personTwo = Object.assign({}, person);
+    personTwo.foods.fav = 'burgers';
+    console.log(person, personTwo);
+    // Yikes!
+
+    // Poor mans deep clone
+    const personThree = JSON.parse(JSON.stringify(person));
+    personThree.foods.fav = 'steak';
+    console.log(person, personThree);
+    // However this is not recommended for performance.
+    
+    // lodash has a cloneDeep method, but you should think twice before using it.
 
   </script>
 
