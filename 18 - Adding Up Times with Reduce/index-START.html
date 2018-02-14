@@ -182,6 +182,69 @@
     </li>
   </ul>
 <script>
+  // My way before video
+  const videoContainer = document.querySelector('.videos');
+  const videos = [...videoContainer.querySelectorAll('li')];
+
+  function getTotalTime(videos){
+    let totalSeconds = videos.reduce((total, video) => {
+      const timeArray = video.dataset.time.split(':');
+      const thisTime = (parseInt(timeArray[0]) * 60) + parseInt(timeArray[1]);
+      total += parseInt(thisTime);
+      return total;
+    }, 0);
+
+    let totalMinutes = Math.floor(totalSeconds / 60);
+    let totalHours = Math.floor(totalMinutes / 60);
+    totalHours = (totalHours >= 10) ? totalHours : '0' + totalHours;
+    totalMinutes = Math.floor(totalMinutes % 60);
+    totalMinutes = (totalMinutes >= 10) ? totalMinutes : '0' + totalMinutes;
+    totalSeconds = Math.floor(totalSeconds % 60);
+    totalSeconds = (totalSeconds >= 10) ? totalSeconds : '0' + totalSeconds;
+
+    const totalTime = `${totalHours}:${totalMinutes}:${totalSeconds}`;
+
+    return totalTime;
+  }
+
+  console.log(getTotalTime(videos));
+
+  // Wes Bos way
+  const timeNodes = [...document.querySelectorAll('[data-time]')];
+
+  const seconds = timeNodes
+    .map(node => node.dataset.time)
+    .map(timeCode => {
+      const [mins, secs] = timeCode.split(':').map(parseFloat);
+      return (mins * 60) + secs;
+    })
+    .reduce((total, seconds) => total + seconds)
+
+  let secondsLeft = seconds;
+  const hours = Math.floor(secondsLeft / 3600);
+  secondsLeft = secondsLeft % 3600;
+  const mins = Math.floor(secondsLeft / 60);
+  secondsLeft = secondsLeft % 60;
+
+  console.log(hours, mins, secondsLeft);
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
